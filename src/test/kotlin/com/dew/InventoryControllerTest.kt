@@ -28,6 +28,15 @@ class InventoryControllerTest : TestPropertyProvider {
         val status = inventoryClient.save(productInventory)
 
         assertEquals(HttpStatus.CREATED, status)
+
+        var response = inventoryClient.find(productInventory.sku)
+
+        assertEquals(HttpStatus.OK, response.status)
+        assertEquals(productInventory.sku, response.body()!!.sku)
+
+        response = inventoryClient.find("321-CEL")
+
+        assertEquals(HttpStatus.NOT_FOUND, response.status)
     }
 
     override fun getProperties(): Map<String, String> {
