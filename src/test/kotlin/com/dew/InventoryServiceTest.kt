@@ -5,7 +5,7 @@ import com.dew.inventory.application.create.CreateProductInventoryCommand
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -23,15 +23,16 @@ class InventoryServiceTest : TestPropertyProvider {
 
         var productInventory = inventoryService.find("321").block()
 
-        Assertions.assertNotNull(productInventory)
-        Assertions.assertEquals(50, productInventory!!.stock)
+        assertNotNull(productInventory)
+        assertEquals(50, productInventory!!.stock)
 
         val result = inventoryService.decreaseStock("321", 20).block()
 
-        Assertions.assertTrue(result!!)
+        assertTrue(result!!)
 
         productInventory = inventoryService.find("321").block()
-        Assertions.assertEquals(30, productInventory!!.stock)
+        assertEquals(30, productInventory!!.stock)
+        assertNotNull(productInventory.updatedAt)
     }
 
     override fun getProperties(): MutableMap<String, String> {

@@ -37,7 +37,7 @@ class MongoDbInventoryRepository(
         collection.findOneAndUpdate(
             Filters.or(
                 Filters.eq("_id.code", codeOrSku), Filters.eq("_id.sku", codeOrSku)
-            ), Updates.inc("stock", -quantity)
+            ), Updates.combine(Updates.inc("stock", -quantity), Updates.currentDate("updatedAt"))
         )
     ).map { true }.onErrorReturn(false)
 
