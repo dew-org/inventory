@@ -2,6 +2,7 @@ package com.dew
 
 import com.dew.inventory.application.create.CreateProductInventoryCommand
 import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
@@ -42,6 +43,12 @@ class InventoryControllerTest : TestPropertyProvider {
         response = inventoryClient.find("321-CEL")
 
         assertEquals(HttpStatus.NOT_FOUND, response.status)
+
+        try {
+            inventoryClient.save(productInventory)
+        } catch (e: HttpClientResponseException) {
+            assertEquals(HttpStatus.CONFLICT, e.status)
+        }
     }
 
     override fun getProperties(): Map<String, String> {

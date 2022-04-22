@@ -23,7 +23,7 @@ class MongoDbInventoryRepository(
     override fun find(codeOrSku: String): Mono<ProductInventory> = Mono.from(
         collection.find(
             Filters.or(
-                Filters.eq("code", codeOrSku), Filters.eq("sku", codeOrSku)
+                Filters.eq("_id.code", codeOrSku), Filters.eq("_id.sku", codeOrSku)
             )
         ).first()
     )
@@ -36,7 +36,7 @@ class MongoDbInventoryRepository(
     override fun decreaseStock(codeOrSku: String, quantity: Int): Mono<Boolean> = Mono.from(
         collection.findOneAndUpdate(
             Filters.or(
-                Filters.eq("code", codeOrSku), Filters.eq("sku", codeOrSku)
+                Filters.eq("_id.code", codeOrSku), Filters.eq("_id.sku", codeOrSku)
             ), Updates.inc("stock", -quantity)
         )
     ).map { true }.onErrorReturn(false)
