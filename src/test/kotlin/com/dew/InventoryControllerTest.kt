@@ -1,19 +1,25 @@
 package com.dew
 
-import com.dew.common.infrastructure.persistence.mongo.testing.MongoDbUtils
 import com.dew.inventory.application.create.CreateProductInventoryCommand
 import io.micronaut.http.HttpStatus
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.utility.DockerImageName
 
 @MicronautTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class InventoryControllerTest : TestPropertyProvider {
+
+    companion object {
+        @Container
+        val mongo: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:latest")).withExposedPorts(27017)
+    }
 
     @Inject
     lateinit var inventoryClient: InventoryClient
@@ -21,9 +27,7 @@ class InventoryControllerTest : TestPropertyProvider {
     @Test
     fun interact_with_inventory() {
         val productInventory = CreateProductInventoryCommand(
-            "123",
-            "123-CEL",
-            20
+            "123", "123-CEL", 20
         )
 
         val status = inventoryClient.save(productInventory)
@@ -41,12 +45,10 @@ class InventoryControllerTest : TestPropertyProvider {
     }
 
     override fun getProperties(): Map<String, String> {
-        MongoDbUtils.startMongoDb()
-        return mapOf("mongodb.uri" to MongoDbUtils.mongoDbUri)
-    }
+        if (!mongo.isRunning) {
+            mongo.start()
+        }
 
-    @AfterAll
-    fun cleanup() {
-        MongoDbUtils.closeMongoDb()
+        return mapOf("mongodb.uri" to mongo.replicaSetUrl)
     }
 }
