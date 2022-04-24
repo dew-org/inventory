@@ -7,15 +7,15 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
-import reactor.core.publisher.Mono
+
 import javax.validation.Valid
 
 @Client("/inventory")
 interface InventoryClient {
 
     @Post
-    fun save(@Valid request: CreateProductInventoryCommand): HttpStatus
+    HttpStatus save(@Valid CreateProductInventoryCommand request)
 
     @Get("/{codeOrSku}")
-    fun find(codeOrSku: String): HttpResponse<ProductInventoryResponse>
+    HttpResponse<ProductInventoryResponse> find(String codeOrSku)
 }
