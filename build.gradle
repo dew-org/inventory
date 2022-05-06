@@ -73,6 +73,9 @@ tasks {
     dockerBuild {
         images = ["deworg/inventory:$project.version"]
     }
+    dockerBuildNative {
+        images = ["deworg/inventory:$project.version"]
+    }
 }
 graalvmNative.toolchainDetection = false
 micronaut {
