@@ -24,6 +24,8 @@ micronaut:
         enabled: false
 consul:
   client:
+    config:
+      format: yaml
     default-zone: ${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}
     registration:
       enabled: true
