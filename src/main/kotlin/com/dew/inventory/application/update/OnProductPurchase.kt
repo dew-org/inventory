@@ -17,14 +17,14 @@ class OnProductPurchase(private val inventoryService: InventoryService) {
     private val logger: Logger = LoggerFactory.getLogger(OnProductPurchase::class.java)
 
     @Topic("product-purchase")
-    fun productPurchase(products: List<PurchasedProduct>) {
-        products.map {
-            inventoryService.decreaseStock(it.sku, it.quantity).flatMap { updated ->
+    fun productPurchase(product: Mono<PurchasedProduct>): Mono<PurchasedProduct> {
+        return product.flatMap {
+            inventoryService.decreaseStock(it.code, it.quantity).flatMap { updated: Boolean ->
                 if (!updated) {
-                    logger.error("Failed to update stock for sku: ${it.sku}")
+                    logger.error("Failed to update stock for product ${it.code}")
                 }
 
-                Mono.just(updated)
+                Mono.just(it)
             }
         }
     }
