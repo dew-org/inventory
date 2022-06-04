@@ -6,6 +6,7 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.Put
 import io.micronaut.http.client.annotation.Client
 
 import javax.validation.Valid
@@ -18,4 +19,7 @@ interface InventoryClient {
 
     @Get("/{codeOrSku}")
     HttpResponse<ProductInventoryResponse> find(String codeOrSku)
+
+    @Put("/{codeOrSku}/stock/{newStock}")
+    HttpStatus updateStock(String codeOrSku, int newStock)
 }

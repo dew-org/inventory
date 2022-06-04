@@ -45,6 +45,18 @@ class MongoDbInventoryRepository(
         )
     ).map { true }.onErrorReturn(false)
 
+    override fun updateStock(codeOrSku: String, newStock: Int): Mono<Boolean> = Mono.from(
+        collection.findOneAndUpdate(
+            Filters.or(
+                Filters.eq("_id.code", codeOrSku),
+                Filters.eq("_id.sku", codeOrSku)
+            ), Updates.combine(
+                Updates.set("stock", newStock),
+                Updates.currentDate("updatedAt")
+            )
+        )
+    ).map { true }.onErrorReturn(false)
+
     private val collection: MongoCollection<ProductInventory>
         get() = mongoClient
             .getDatabase(mongoDbConfiguration.name)

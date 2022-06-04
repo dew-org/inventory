@@ -22,32 +22,45 @@ class InventoryControllerSpec extends Specification implements TestPropertyProvi
     InventoryClient client
 
     def "interact with inventory api"() {
-        when:
+        when: "save a new product inventory"
         var product = new CreateProductInventoryCommand("123", "321", 20)
         var status = client.save(product)
 
-        then:
+        then: "should return 201"
         status == HttpStatus.CREATED
 
-        when:
+        when: "find the product inventory"
         var response = client.find("321")
 
-        then:
+        then: "should return the product inventory"
         response.body.present
         response.body().code == "123"
 
-        when:
+        when: "find the product inventory"
         var notFoundResponse = client.find("1234")
 
-        then:
+        then: "should return 404"
         notFoundResponse.status == HttpStatus.NOT_FOUND
         !notFoundResponse.body.present
 
-        when:
+        when: "save same product inventory"
         client.save(product)
 
-        then:
+        then: "should return 409"
         thrown(HttpClientResponseException)
+
+        when: "update stock"
+        status = client.updateStock("321", 30)
+
+        then: "should return 200"
+        status == HttpStatus.OK
+
+        when: "find the product inventory"
+        response = client.find("321")
+
+        then: "should return the product inventory"
+        response.body.present
+        response.body().stock == 30
     }
 
     @Override

@@ -16,4 +16,6 @@ interface InventoryRepository {
      * @param quantity the quantity to be subtracted
      */
     fun decreaseStock(@NotBlank codeOrSku: String, quantity: Int): Mono<Boolean>
+
+    fun updateStock(@NotBlank codeOrSku: String, newStock: Int): Mono<Boolean>
 }

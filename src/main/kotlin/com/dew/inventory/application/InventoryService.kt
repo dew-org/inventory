@@ -33,4 +33,7 @@ class InventoryService(private val inventoryRepository: InventoryRepository) {
      */
     fun decreaseStock(codeOrSku: String, quantity: Int): Mono<Boolean> =
         inventoryRepository.decreaseStock(codeOrSku, quantity)
+
+    fun updateStock(codeOrSku: String, quantity: Int): Mono<Boolean> =
+        inventoryRepository.updateStock(codeOrSku, quantity)
 }
