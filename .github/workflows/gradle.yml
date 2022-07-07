@@ -127,7 +127,7 @@ jobs:
           else
             ./gradlew check --continue --no-daemon
           fi
-          env:
+        env:
           TESTCONTAINERS_RYUK_DISABLED: true
 
       - name: build and push native image
