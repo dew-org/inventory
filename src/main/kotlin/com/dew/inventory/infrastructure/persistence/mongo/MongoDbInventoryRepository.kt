@@ -1,5 +1,6 @@
 package com.dew.inventory.infrastructure.persistence.mongo
 
+import com.dew.common.infrastructure.persistence.mongo.MongoDbConfiguration
 import com.dew.inventory.domain.InventoryRepository
 import com.dew.inventory.domain.ProductInventory
 import com.mongodb.client.model.Filters
