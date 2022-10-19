@@ -2,16 +2,16 @@ package com.dew.inventory.application.update
 
 import com.dew.common.domain.invoices.PurchasedProduct
 import com.dew.inventory.application.InventoryService
-import io.micronaut.configuration.kafka.annotation.KafkaListener
 import io.micronaut.configuration.kafka.annotation.Topic
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
+import io.micronaut.gcp.pubsub.annotation.PubSubListener
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 
 @Requires(notEnv = [Environment.TEST])
-@KafkaListener
+@PubSubListener
 class OnProductPurchase(private val inventoryService: InventoryService) {
 
     private val logger: Logger = LoggerFactory.getLogger(OnProductPurchase::class.java)
