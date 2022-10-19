@@ -1,14 +1,14 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    id("org.jetbrains.kotlin.kapt") version "1.7.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.10"
+    id("org.jetbrains.kotlin.jvm") version "1.7.20"
+    id("org.jetbrains.kotlin.kapt") version "1.7.20"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.20"
     id("groovy")
     id("jacoco")
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.5.1"
+    id("io.micronaut.application") version "3.6.2"
 }
 
-version = "0.1.6"
+version = "1.0.0"
 group = "com.dew"
 
 repositories {
@@ -33,6 +33,10 @@ dependencies {
 
     implementation 'com.dew:common:0.1.4'
 
+    implementation 'io.micronaut.gcp:micronaut-gcp-secret-manager'
+    implementation 'io.micronaut.gcp:micronaut-gcp-pubsub'
+    implementation 'com.google.cloud:native-image-support:0.14.1'
+
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
@@ -40,7 +44,7 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.kafka:micronaut-kafka")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("io.micronaut.discovery:micronaut-discovery-client:3.1.0")
+    implementation("io.micronaut.discovery:micronaut-discovery-client")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
