@@ -75,6 +75,9 @@ jobs:
 
       - name: run coverage report
         uses: gradle/gradle-build-action@v2
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ github.token }}
         with:
           arguments: jacocoTestReport
 
