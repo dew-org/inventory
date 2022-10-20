@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/dew-org/inventory/compare/v1.0.0...v1.0.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* use '@Subscription' pub/sub annotation ([#23](https://github.com/dew-org/inventory/issues/23)) ([9b29b04](https://github.com/dew-org/inventory/commit/9b29b041e1c845310e4e4838668c848a4c5e6149))
+
 ## [1.0.0](https://github.com/dew-org/inventory/compare/v0.1.6...v1.0.0) (2022-10-19)
 
 
