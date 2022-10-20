@@ -8,7 +8,6 @@ import io.micronaut.gcp.pubsub.annotation.PubSubListener
 import io.micronaut.gcp.pubsub.annotation.Subscription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import reactor.core.publisher.Mono
 
 @Requires(notEnv = [Environment.TEST])
 @PubSubListener
@@ -17,14 +16,12 @@ class OnProductPurchase(private val inventoryService: InventoryService) {
     private val logger: Logger = LoggerFactory.getLogger(OnProductPurchase::class.java)
 
     @Subscription("product-purchase")
-    fun productPurchase(product: Mono<PurchasedProduct>): Mono<PurchasedProduct> {
-        return product.flatMap {
-            inventoryService.decreaseStock(it.code, it.quantity).flatMap { updated: Boolean ->
-                if (!updated) {
-                    logger.error("Failed to update stock for product ${it.code}")
-                }
+    fun productPurchase(products: List<PurchasedProduct>) {
+        products.forEach { product ->
+            val result = inventoryService.decreaseStock(product.code, product.quantity).block()
 
-                Mono.just(it)
+            if (result != null && !result) {
+                logger.error("Failed to update inventory for product ${product.code}")
             }
         }
     }
