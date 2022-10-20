@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/dew-org/inventory/compare/v1.0.1...v1.0.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* rewrite update stock logic ([ac9cfa3](https://github.com/dew-org/inventory/commit/ac9cfa3b97aa342a41480713d48f8bd9e5ed2e86))
+
 ## [1.0.1](https://github.com/dew-org/inventory/compare/v1.0.0...v1.0.1) (2022-10-20)
 
 
